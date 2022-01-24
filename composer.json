@@ -1,0 +1,26 @@
+{
+    "name": "sistema/sistramite",
+    "description": "Sistema de tramite Documentario",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fredy Rojas",
+            "email": "farojas851@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.2",
+        "bramus/router": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
