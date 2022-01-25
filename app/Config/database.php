@@ -4,17 +4,18 @@ namespace App\Config;
 
 use PDO;
 use PDOException;
+
 use App\Config\Config;
 
 class Database
 {
     private static $link = null;
 
-    private function __construct(){
+    public function __construct(){
 
     }
     
-    private function __clone()
+    public function __clone()
     {
 
     }

@@ -12,7 +12,7 @@ class View{
         
         //$this->handleMessages();
 
-        require 'app/views/' . $nombre . '.php';
+        require 'Views/' . $nombre . '.php';
     }
     
     private function handleMessages(){

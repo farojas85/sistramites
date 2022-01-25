@@ -11,6 +11,7 @@ class Controller
     function __construct(){
         $className = get_class($this);
         $parts = explode("\\", $className);
+
         $this->name = $parts[count($parts) - 1];
         
         $this->view = new View();

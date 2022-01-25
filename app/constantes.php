@@ -5,5 +5,3 @@ define('DB_PASS','');
 define('DB_NAME','tramites');
 
 define('URL','http://sistramite.test');
-
-echo "Cargando Constantes..."; 

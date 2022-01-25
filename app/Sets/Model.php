@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcosrivasr\Instagram\lib;
+namespace App\Sets;
 
 use App\Config\Database;
 
