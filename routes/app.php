@@ -2,6 +2,7 @@
 use Bramus\Router\Router;
 use App\Controllers\Login;
 use App\Controllers\Home;
+use App\Controllers\DepartamentoController;
 
 $router = new Router();
 session_start();
@@ -9,7 +10,7 @@ session_start();
 
 
 $router->before('GET','/', function(){
-    if(isset($_SESSION['user'])){
+    if(isset($_SESSION['usu_usuario'])){
         header('Location: home');
     } else {
         header('Location: login');
@@ -32,10 +33,19 @@ $router->post('/auth', function() {
     $controller->autenticar($_POST);
 });
 
+$router->get('/logout', function() {
+    session_destroy();
+    header('location: login');
+});
+
 $router->get('/home', function() { 
-    global $user;
-    $controller = new Home($user);
+    $controller = new Home();
     $controller->index();
+});
+
+$router->get('/departamentos-listar', function() { 
+    $controller = new DepartamentoController();
+    echo json_encode($controller->obtenerDepartamentos());
 });
 
 $router->run();

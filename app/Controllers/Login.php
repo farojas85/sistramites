@@ -3,13 +3,13 @@
 namespace App\Controllers;
 use App\Sets\Controller;
 use App\Models\Usuario;
-
+use App\Models\Grupo;
+use App\Models\Departamento;
 class Login extends Controller
 {
     function __construct()
     {
         parent::__construct();
-        session_start();
     }
 
     public function autenticar($data){
@@ -21,14 +21,19 @@ class Login extends Controller
                 error_log('si existe');
                 error_log('usuario: '.$usuario);
                 $user = Usuario::get($usuario);
+    
                 
                 if($user->compararPassword($usuario,$password)){
                     $_SESSION['correo'] = $user->getUsuEmail();
                     $_SESSION['usu_usuario'] = $user->getUsuUsuario();
                     $_SESSION['gru_id'] = $user->getGruId();
+                    $grupo = Grupo::getById($user->getGruId());
+                    $_SESSION['gru_nombre'] = $grupo->getGruNombre();
                     $_SESSION['usu_id'] = $user->getUsuId();
                     $_SESSION['usuario_valido'] = $user->getUsuId();
                     $_SESSION["dep_id"] = $user->getDepId();
+                    $depa = Departamento::getById($user->getDepId());
+                    $_SESSION['dep_nombre'] = $depa->getDepNombre();
                     header('location: home');
                 }else{
                     echo "password incorrecto";

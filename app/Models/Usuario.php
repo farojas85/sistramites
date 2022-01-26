@@ -1,6 +1,9 @@
 <?php
 namespace App\Models;
 
+use PDO;
+use PDOException;
+
 use App\Config\Database;
 use App\Sets\Model;
 
@@ -22,13 +25,13 @@ class Usuario extends Model
     public function __construct(string $username, string $password)
     {
         parent::__construct();
-        $this->usu_id = null;
+        $this->usu_id = 0;
         $this->usu_dni = "";
         $this->usu_nombre_apellido ="";
-        $this->dep_id = null;
+        $this->dep_id = 0;
         $this->usu_usuario = $username;
         $this->usu_clave = $password;
-        $this->gru_id = null;
+        $this->gru_id = 0;
         $this->usu_fregistro = "";
         $this->usu_vigencia= "";
         $this->usu_email = "";
@@ -61,9 +64,11 @@ class Usuario extends Model
             $data = $query->fetch(PDO::FETCH_ASSOC);
             error_log($data['usu_usuario']);
             error_log($data['usu_clave']);
-            $user = new User($data['usu_usuario'], $data['usu_clave']);
-            $user->setId($data['usu_id']);
+            $user = new Usuario($data['usu_usuario'], $data['usu_clave']);
+            $user->setUsuId($data['usu_id']);
             $user->setUsuEmail($data['usu_email']);
+            $user->setUsuUsuario($data['usu_usuario']);
+            $user->setUsuClave($data['usu_clave']);
             $user->setGruId($data['gru_id']);
             $user->setDepId($data['dep_id']);
             return $user;
@@ -75,7 +80,9 @@ class Usuario extends Model
     public function compararPassword(string $usuario,string $password){
         try{
             $codificar = substr ($usuario, 0, 2);
-            return $pass_crypt = crypt ($password, $codificar);
+            $pass_crypt = crypt ($password, $codificar);
+            $usu = Usuario::get($usuario);
+            return $usu->getUsuClave() == $pass_crypt;
         }catch(PDOException $e){
             echo $e;
             return false;
@@ -97,6 +104,14 @@ class Usuario extends Model
     public function setUsuUsuario(string $value)
     {
         $this->usu_usuario = $value;
+    }
+
+    public function getUsuClave(){
+        return $this->usu_clave;
+    }
+
+    public function setUsuClave($value){
+        $this->usu_clave = $value;
     }
 
     public function getUsuDni(){
