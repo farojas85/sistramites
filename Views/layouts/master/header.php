@@ -7,6 +7,7 @@
     $Departamento=$_SESSION["dep_nombre"];
     $Tipo_Usuario=$_SESSION["gru_nombre"];
     $Grupo = $_SESSION["gru_id"];
+
 ?>
 <!doctype html>
 <html lang="es">

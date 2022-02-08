@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '84ab6df7bc05bc9342ce29bb508efa62c4347174',
+        'reference' => '7a900b020df634ebbf126835c0c201c99be1e58e',
         'name' => 'sistema/sistramite',
         'dev' => true,
     ),
@@ -202,7 +202,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '84ab6df7bc05bc9342ce29bb508efa62c4347174',
+            'reference' => '7a900b020df634ebbf126835c0c201c99be1e58e',
             'dev_requirement' => false,
         ),
         'symfony/deprecation-contracts' => array(

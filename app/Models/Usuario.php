@@ -151,7 +151,7 @@ class Usuario extends Model
     //     array_push($this->posts, $res);
     // }
 
-    public function fetchPosts(){
-        $this->posts = PostImage::getAll($this->getId());
-    }
+    // public function fetchPosts(){
+    //     $this->posts = PostImage::getAll($this->getId());
+    // }
 }

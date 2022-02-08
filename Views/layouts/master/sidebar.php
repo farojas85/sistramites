@@ -22,7 +22,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?menu=7">
+                        <a class="nav-link" href="/departamentos">
                             <i class="ri-dashboard-line mr-2"></i> Departamentos / Documentos
                         </a>
                     </li>
@@ -58,7 +58,7 @@
                      ?>
                     <?php        if($Grupo=="4" or $Grupo=="2"){ ?>
                     <li class="nav-item">
-                        <a href="index.php?menu=1" class="nav-link">
+                        <a href="/documentos" class="nav-link">
                             <i class="ri-dashboard-line"></i>
                             <span>Documentos</span>
                         </a>

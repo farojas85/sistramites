@@ -2,7 +2,6 @@
 use Bramus\Router\Router;
 use App\Controllers\Login;
 use App\Controllers\Home;
-use App\Controllers\DepartamentoController;
 
 $router = new Router();
 session_start();
@@ -43,9 +42,7 @@ $router->get('/home', function() {
     $controller->index();
 });
 
-$router->get('/departamentos-listar', function() { 
-    $controller = new DepartamentoController();
-    echo json_encode($controller->obtenerDepartamentos());
-});
+include "departamento.php";
+include "documentos.php";
 
 $router->run();

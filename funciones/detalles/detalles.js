@@ -63,7 +63,7 @@ $(document).ready(function () {
         idst = fila.find('td:eq(0)').find('span').attr("data-id");
         dnom = fila.find('td:eq(1)').text();
         $("#principal").hide();
-        $('#detalle').load('views/Detalles/V_Detalles.php', { "idst": idst, "dnom": dnom });
+        $('#detalle').load('views/detalles/detalles.php', { "idst": idst, "dnom": dnom });
     });
     
 });

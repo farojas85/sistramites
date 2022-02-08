@@ -12,6 +12,11 @@ class DepartamentoController extends Controller
         parent::__construct();
     }
 
+    public function index() 
+    {
+        $this->render('departamentos/index');
+    }
+
     public function obtenerDepartamentos()
     {
         $depa = new Departamento();
