@@ -151,5 +151,5 @@
   });
 </script>
 
-<script type="text/javascript" src="functions/detalles/procesos.js"></script>
-<script type="text/javascript" src="functions/detalles/filtros.js"></script>
+<script type="text/javascript" src="funciones/detalles/procesos.js"></script>
+<script type="text/javascript" src="funciones/detalles/filtros.js"></script>

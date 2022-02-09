@@ -4,6 +4,7 @@ use App\Controllers\Login;
 use App\Controllers\Home;
 
 $router = new Router();
+
 session_start();
 //$user = unserialize($_SESSION['user']);
 
@@ -44,5 +45,7 @@ $router->get('/home', function() {
 
 include "departamento.php";
 include "documentos.php";
+include "codigo.php";
+include "tramite.php";
 
 $router->run();

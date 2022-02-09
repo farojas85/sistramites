@@ -1,31 +1,32 @@
 $(document).ready(function () {
     var opcion, depid, estado;
     depid = $.trim($('#depid').val());
+    estado ="T";
     ////////////////////DOCUMENTOS RECIBIDOS/////////////////////////////////////////
     function listar_filtro() {
       opcion = 10;
       $('#tablefiltro').DataTable().clear().destroy();
       $.ajax({
-        url: "functions/Procesos/Procesos.php",
-        type: "POST",
+        url: "/codigos-listar",
+        type: "GET",
         datatype: "json",
         data: { opcion: opcion, depid: depid },
         success: function (data) {
           //RECORRER OBJETO JS
           let ObjetoJSS1 = JSON.parse(data);
           for (let itemm of ObjetoJSS1) { var listar = itemm.data; }
-          if (listar == 0) {
-            var tablefiltro = $('#tablefiltro').DataTable({
-              "autoWidth": false,
-              "columns": [null, null, null, null, null, null, null, null]
-            });
-          } else {
+            if (listar == 0) {
+              var tablefiltro = $('#tablefiltro').DataTable({
+                "autoWidth": false,
+                "columns": [null, null, null, null, null, null, null, null]
+              });
+            } else {
             opcion = 11;
             var tablefiltro = $('#tablefiltro').DataTable({
               "ajax": {
-                "url": "functions/Procesos/Procesos.php",
-                "method": 'POST', //usamos el metodo POST
-                "data": { opcion: opcion, depid: depid },
+                "url": "/tramites-por-departamento/"+depid+"/"+estado,
+                "method": 'GET', //usamos el metodo POST
+                "data": { opcion: opcion, depid: depid, estado:estado },
                 "dataSrc": ""
               },
               "autoWidth": true,
