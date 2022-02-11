@@ -153,3 +153,6 @@
 
 <script type="text/javascript" src="funciones/detalles/procesos.js"></script>
 <script type="text/javascript" src="funciones/detalles/filtros.js"></script>
+<script type="text/javascript" src="funciones/detalles/recibidos.js"></script>
+<script type="text/javascript" src="funciones/detalles/derivados.js"></script>
+<script type="text/javascript" src="funciones/detalles/archivados.js"></script>

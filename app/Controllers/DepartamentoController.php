@@ -22,4 +22,6 @@ class DepartamentoController extends Controller
         $depa = new Departamento();
         return $depa->getAll();
     }
+
+    
 }

@@ -120,4 +120,105 @@ class Tramite extends Model
             echo $e;
         }
     }
+
+    public static function getContarPendintes(int $depid)
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT count(t.tr_id) as n_pendientes
+                                    FROM tramites AS t INNER JOIN codigos as c ON  c.tr_id=t.tr_id
+                                    WHERE t.tr_estatuso='DERIVADO' AND t.tr_estatusr='PENDIENTE' 
+                                        AND t.dep_recibe=?");
+            $query->execute([$depid]);
+            $cantidad_pendientes = (int) $query->fetch(PDO::FETCH_OBJ)->n_pendientes;
+
+            return $cantidad_pendientes;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+    public static function getContarRecibidos(int $depid)
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT count(*) as n_recibidos FROM tramites 
+                                                where dep_origen=? and tr_estatusr='RECIBIDO'");
+            $query->execute([$depid]);
+            $cantidad_recibidos = (int) $query->fetch(PDO::FETCH_OBJ)->n_recibidos;
+
+            return $cantidad_recibidos;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public static function getContarDerivados(int $depid)
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT count(t.tr_id) as n_derivados 
+                                            FROM tramites AS t INNER JOIN codigos as c ON  c.tr_id=t.tr_id
+                                            WHERE t.tr_estatuso='DERIVADO' AND (t.tr_estatusr='RECIBIDO' OR t.tr_estatusr='PENDIENTE')
+                                                AND t.dep_origen=?");
+            $query->execute([$depid]);
+            $cantidad_derivados = (int) $query->fetch(PDO::FETCH_OBJ)->n_derivados;
+
+            return $cantidad_derivados;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public static function getContarArchivados(int $depid)
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT count(t.tr_id) as n_archivados
+                                            FROM tramites AS t INNER JOIN codigos as c ON c.tr_id=t.tr_id
+                                            WHERE t.tr_estatuso='DERIVADO' AND t.tr_estatusr='ARCHIVADO' 
+                                                AND t.usu_id=?");
+            $query->execute([$depid]);
+            $cantidad_archivados = (int) $query->fetch(PDO::FETCH_OBJ)->n_archivados;
+
+            return $cantidad_archivados;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public static function getContarDocumentosCreados()
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT count(t.tr_id) as n_doccreados 
+                                                FROM tramites AS t INNER JOIN codigos as c ON c.tr_id=t.tr_id
+                                                WHERE  t.usu_id=?");
+            $query->execute([$_SESSION['usu_id']]);
+            $cantidad_doccreados = (int) $query->fetch(PDO::FETCH_OBJ)->n_doccreados;
+
+            return $cantidad_doccreados;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
 }

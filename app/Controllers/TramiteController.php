@@ -22,4 +22,15 @@ class TramiteController extends Controller
         $tramite = new Tramite();
         return $tramite->getByDepartamentoId($depid,$estado);
     }
+
+    public function obtenerCantidadDocumentos(int $depid)
+    {
+        return [
+            'cantidad_pendientes' => Tramite::getContarPendintes($depid),
+            'cantidad_recibidos' => Tramite::getContarRecibidos($depid),
+            'cantidad_derivados' => Tramite::getContarDerivados($depid),
+            'cantidad_archivados' => Tramite::getContarArchivados($depid),
+            'cantidad_doccreados' => Tramite::getContarDocumentosCreados()
+        ];
+    }
 }
