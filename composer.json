@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1.2",
+        "php": ">=7.1.22",
         "bramus/router": "^1.6",
         "google/apiclient": "^2.12.1"
     },

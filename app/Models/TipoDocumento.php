@@ -9,9 +9,9 @@ use App\Sets\Model;
 
 class TipoDocumento extends Model
 {
-    private int $tdoc_id;
-    private string $tdoc_nombre;
-    private string $tdoc_abrevia;
+    public $tdoc_id;
+    public $tdoc_nombre;
+    public $tdoc_abrevia;
 
     public function __construct()
     {
@@ -19,31 +19,6 @@ class TipoDocumento extends Model
         $this->tdoc_id = 0;
         $this->tdoc_nombre = "";
         $this->tdoc_abrevia= "";
-    }
-
-    public function getDocId():int{
-        return $this->tdoc_id;
-    }
-
-    public function setDocId(int $value){
-        $this->tdoc_id = $value;
-    }
-
-    
-    public function getTdocNombre():string{
-        return $this->tdoc_nombre;
-    }
-
-    public function setTdocNombre(string $value){
-        $this->tdoc_nombre = $value;
-    }
-
-    public function getTdocAbrevia():string{
-        return $this->tdoc_abrevia;
-    }
-
-    public function setTdocAbrevia(string $value){
-        $this->tdoc_abrevia = $value;
     }
 
     public static function getById(int $id) :TipoDocumento
@@ -57,9 +32,9 @@ class TipoDocumento extends Model
             $data = $query->fetch(PDO::FETCH_ASSOC);
            
             $tipo_documentos = new TipoDocumento();
-            $tipo_documentos->setDocId($data['tdoc_id']);
-            $tipo_documentos->setTdocNombre($data['tdoc_nombre']);
-            $tipo_documentos->setTdocAbrevia($data['tdoc_abrevia']);
+            $tipo_documentos->tdoc_id = $data['tdoc_id'];
+            $tipo_documentos->tdoc_nombre = $data['tdoc_nombre'];
+            $tipo_documentos->tdoc_abrevia = $data['tdoc_abrevia'];
             return $tipo_documentos;
         }catch(PDOException $e){
             return false;
@@ -89,15 +64,17 @@ class TipoDocumento extends Model
     public static function insertar($POST) {
         try{
             $db = new Database();
-            $query = $db->connect()->prepare(
+            $pdo = $db->connect();
+            $query = $pdo->prepare(
                 "INSERT INTO tipo_documento(tdoc_nombre,tdoc_abrevia)
                 VALUES(?,?)"
             );
 
             $query->execute([$POST['docnombre'],$POST['docabrevia']]);
 
-            $tipodoc_id = $query->lastInsertId();
+            $tipodoc_id = $pdo->lastInsertId();
             echo $tipodoc_id;
+            
 
         } catch(PDOException $e) {
             echo $e;

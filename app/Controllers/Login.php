@@ -24,16 +24,16 @@ class Login extends Controller
     
                 
                 if($user->compararPassword($usuario,$password)){
-                    $_SESSION['correo'] = $user->getUsuEmail();
-                    $_SESSION['usu_usuario'] = $user->getUsuUsuario();
-                    $_SESSION['gru_id'] = $user->getGruId();
-                    $grupo = Grupo::getById($user->getGruId());
-                    $_SESSION['gru_nombre'] = $grupo->getGruNombre();
-                    $_SESSION['usu_id'] = $user->getUsuId();
-                    $_SESSION['usuario_valido'] = $user->getUsuId();
-                    $_SESSION["dep_id"] = $user->getDepId();
-                    $depa = Departamento::getById($user->getDepId());
-                    $_SESSION['dep_nombre'] = $depa->getDepNombre();
+                    $_SESSION['correo'] = $user->usu_email;
+                    $_SESSION['usu_usuario'] = $user->usu_usuario;
+                    $_SESSION['gru_id'] = $user->gru_id;
+                    $grupo = Grupo::getById($user->gru_id);
+                    $_SESSION['gru_nombre'] = $grupo->gru_nombre;
+                    $_SESSION['usu_id'] = $user->usu_id;
+                    $_SESSION['usuario_valido'] = $user->usu_id;
+                    $_SESSION["dep_id"] = $user->dep_id;
+                    $depa = Departamento::getById($user->dep_id);
+                    $_SESSION['dep_nombre'] = $depa->dep_nombre;
                     header('location: home');
                 }else{
                     echo "password incorrecto";

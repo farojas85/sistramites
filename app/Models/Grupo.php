@@ -9,31 +9,14 @@ use App\Sets\Model;
 
 class Grupo extends Model
 {
-    private int $gru_id;
-    private string $gru_nombre;
+    public $gru_id;
+    public $gru_nombre;
 
     public function __construct()
     {
         parent::__construct();
         $this->gru_id = 0;
         $this->gru_nombre = "";
-    }
-
-    public function getGruId():int{
-        return $this->gru_id;
-    }
-
-    public function setGruId(int $value){
-        $this->gru_id = $value;
-    }
-
-    
-    public function getGruNombre():string{
-        return $this->gru_nombre;
-    }
-
-    public function setGruNombre(string $value){
-        $this->gru_nombre = $value;
     }
 
     public static function getById(int $id) :Grupo
@@ -45,8 +28,8 @@ class Grupo extends Model
             $data = $query->fetch(PDO::FETCH_ASSOC);
            
             $grupo = new Grupo();
-            $grupo->setGruId($data['gru_id']);
-            $grupo->setGruNombre($data['gru_nombre']);
+            $grupo->gru_idd =$data['gru_id'];
+            $grupo->gru_nombre = $data['gru_nombre'];
             return $grupo;
         }catch(PDOException $e){
             return false;
@@ -61,8 +44,8 @@ class Grupo extends Model
 
             while($p = $query->fetch(PDO::FETCH_ASSOC)){
                 $item = new Grupo();
-                $item->setGruId($p['gru_id']);
-                $item->setGruNombre($p['gru_nombre']);
+                $item->gru_id =$p['gru_id'];
+                $item->gru_nombre = $p['gru_nombre'];
 
                 array_push($items, $item);
             }

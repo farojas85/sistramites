@@ -10,3 +10,9 @@ $router->get('/codigos-listar', function() {
     $controller = new CodigoController();
     echo json_encode($controller->obtenerCodigos());
 });
+
+$router->get('/codigo-fila/(\d+)', function($depid) { 
+    $controller = new CodigoController();
+    echo json_encode($controller->obtenerFilasCodigo($depid));
+});
+

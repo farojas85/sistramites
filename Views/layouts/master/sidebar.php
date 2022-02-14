@@ -11,6 +11,12 @@
                     <?php  
                         if($Grupo=="1"){
                     ?>
+                    <li class="nav-item">
+                        <a href="/procesos" class="nav-link">
+                            <i class="ri-dashboard-line"></i>
+                            <span>Procesos</span>
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,7 +62,13 @@
                     <?php
                  }
                      ?>
-                    <?php        if($Grupo=="4" or $Grupo=="2"){ ?>
+                    <?php if($Grupo=="4" or $Grupo=="2"){ ?>
+                    <li class="nav-item">
+                        <a href="/procesos" class="nav-link">
+                            <i class="ri-dashboard-line"></i>
+                            <span>Procesos</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="/documentos" class="nav-link">
                             <i class="ri-dashboard-line"></i>

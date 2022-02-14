@@ -9,9 +9,9 @@ use App\Sets\Model;
 
 class Codigo extends Model
 {
-    private int $cod_id;
-    private int $dep_id;
-    private int $tr_id;
+    public $cod_id;
+    public $dep_id;
+    public $tr_id;
 
     public function __construct()
     {
@@ -19,31 +19,6 @@ class Codigo extends Model
         $this->cod_id = 0;
         $this->dep_id = 0;
         $this->dep_nombre = "";
-    }
-
-    public function getCodId():int{
-        return $this->cod_id;
-    }
-
-    public function setCodId(int $value){
-        $this->cod_id = $value;
-    }
-
-    public function getDepId():int{
-        return $this->dep_id;
-    }
-
-    public function setDepId(int $value){
-        $this->dep_id = $value;
-    }
-
-    
-    public function getTrId():string{
-        return $this->tr_id;
-    }
-
-    public function setTrId(string $value){
-        $this->tr_id = $value;
     }
 
     public static function getById(int $id){
@@ -54,8 +29,8 @@ class Codigo extends Model
             $data = $query->fetch(PDO::FETCH_ASSOC);
            
             $codigo = new Codigo();
-            $codigo->setTrId($data['tr_id']);
-            $codigo->setDepId($data['dep_id']);
+            $codigo->tr_id = $data['tr_id'];
+            $codigo->dep_id = $data['dep_id'];
             return $codigo;
         }catch(PDOException $e){
             return false;
@@ -75,6 +50,23 @@ class Codigo extends Model
                 array_push($items, $p);
             }
             return $items;
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+    public static function getFilasCodigo(int $depid)
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT (count(id) + 1) as fila_codigo  FROM codigos WHERE dep_id=?");
+            $query->execute([$depid]);
+            $cantidad_filas = (int) $query->fetch(PDO::FETCH_OBJ)->n_archivados;
+
+            return $cantidad_filas;
+
 
         }catch(PDOException $e){
             echo $e;

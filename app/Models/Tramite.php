@@ -9,10 +9,10 @@ use App\Sets\Model;
 
 class Tramite extends Model
 {
-    private int $tr_id;
-    private string $tr_tipo;
-    private string $tr_numexp;
-    private string $gru_nombre;
+    public $tr_id;
+    public $tr_tipo;
+    public $tr_numexp;
+    public $gru_nombre;
 
     public function __construct()
     {
@@ -21,31 +21,6 @@ class Tramite extends Model
         $this->tr_tipo="";
         $this->tr_numexp="";
         $this->gru_nombre = "";
-    }
-
-    public function getTrId():int{
-        return $this->tr_id;
-    }
-
-    public function setTrId(int $value){
-        $this->tr_id = $value;
-    }
-
-    
-    public function getTrTipo():string{
-        return $this->tr_tipo;
-    }
-
-    public function setTrTipo(string $value){
-        $this->tr_tipo = $value;
-    }
-
-    public function getTrNumexp():string{
-        return $this->tr_numexp;
-    }
-
-    public function setTrNumexp(string $value){
-        $this->tr_numexp = $value;
     }
 
     public static function getById(int $id) :Tramite
@@ -57,8 +32,8 @@ class Tramite extends Model
             $data = $query->fetch(PDO::FETCH_ASSOC);
            
             $grupo = new Grupo();
-            $grupo->setGruId($data['tr_id']);
-            $grupo->setGruNombre($data['gru_nombre']);
+            $grupo->gru_id = $data['tr_id'];
+            $grupo->gru_nombre=$data['gru_nombre'];
             return $grupo;
         }catch(PDOException $e){
             return false;
@@ -108,8 +83,8 @@ class Tramite extends Model
 
             while($p = $query->fetch(PDO::FETCH_ASSOC)){
                 $item = new Grupo();
-                $item->setGruId($p['gru_id']);
-                $item->setGruNombre($p['gru_nombre']);
+                $item->gru_id = $p['gru_id'];
+                $item->gru_nombre= $p['gru_nombre'];
 
                 array_push($items, $item);
             }

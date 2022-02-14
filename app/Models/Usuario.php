@@ -9,20 +9,20 @@ use App\Sets\Model;
 
 class Usuario extends Model
 {
-    private int $usu_id;
-    private string $usu_dni;
-    private string $usu_nombre_apellido;
-    private int $dep_id;
-    private string $usu_usuario;
-    private string $usu_clave;
-    private int $gru_id;
-    private $usu_fregistro;
-    private $usu_vigencia;
-    private string $usu_email;
-    private int $usu_estatus;
-    private string $usu_observacion;
+    public $usu_id;
+    public $usu_dni;
+    public $usu_nombre_apellido;
+    public $dep_id;
+    public $usu_usuario;
+    public $usu_clave;
+    public  $gru_id;
+    public $usu_fregistro;
+    public $usu_vigencia;
+    public $usu_email;
+    public $usu_estatus;
+    public $usu_observacion;
 
-    public function __construct(string $username, string $password)
+    public function __construct( $username,  $password)
     {
         parent::__construct();
         $this->usu_id = 0;
@@ -39,7 +39,7 @@ class Usuario extends Model
         $this->usu_observacion = "";
     }
 
-    public static function exists(string $usuario){
+    public static function exists($usuario){
         try{
             $db = new Database();
             $query = $db->connect()->prepare('SELECT usu_usuario FROM usuarios WHERE usu_usuario = :usuario');
@@ -65,12 +65,12 @@ class Usuario extends Model
             error_log($data['usu_usuario']);
             error_log($data['usu_clave']);
             $user = new Usuario($data['usu_usuario'], $data['usu_clave']);
-            $user->setUsuId($data['usu_id']);
-            $user->setUsuEmail($data['usu_email']);
-            $user->setUsuUsuario($data['usu_usuario']);
-            $user->setUsuClave($data['usu_clave']);
-            $user->setGruId($data['gru_id']);
-            $user->setDepId($data['dep_id']);
+            $user->usu_id = $data['usu_id'];
+            $user->usu_email=$data['usu_email'];
+            $user->usu_usaurio = $data['usu_usuario'];
+            $user->usu_clave=$data['usu_clave'];
+            $user->gru_id = $data['gru_id'];
+            $user->dep_id = $data['dep_id'];
             return $user;
         }catch(PDOException $e){
             return false;
@@ -82,70 +82,12 @@ class Usuario extends Model
             $codificar = substr ($usuario, 0, 2);
             $pass_crypt = crypt ($password, $codificar);
             $usu = Usuario::get($usuario);
-            return $usu->getUsuClave() == $pass_crypt;
+            return $usu->usu_clave == $pass_crypt;
         }catch(PDOException $e){
             echo $e;
             return false;
         }
     }
-
-    public function getUsuId():string{
-        return $this->usu_id;
-    }
-
-    public function setUsuId(string $value){
-        $this->usu_id = $value;
-    }
-
-    public function getUsuUsuario(){
-        return $this->usu_usuario;
-    }
-
-    public function setUsuUsuario(string $value)
-    {
-        $this->usu_usuario = $value;
-    }
-
-    public function getUsuClave(){
-        return $this->usu_clave;
-    }
-
-    public function setUsuClave($value){
-        $this->usu_clave = $value;
-    }
-
-    public function getUsuDni(){
-        return $this->usu_dni;
-    }
-
-    public function setUsuDni($value){
-        $this->usu_dni = $value;
-    }
-
-    public function setGruId($value){
-        $this->gru_id = $value;
-    }
-
-    public function getGruId(){
-        return $this->gru_id;
-    }
-
-    public function setDepId($value){
-        $this->dep_id = $value;
-    }
-
-    public function getDepId(){
-        return $this->dep_id;
-    }
-
-    public function setUsuEmail($value){
-        $this->usu_email = $value;
-    }
-
-    public function getUsuEmail(){
-        return $this->usu_email;
-    }
-
     // public function publish(Post $post){
     //     $res = $post->publish($this->id);
     //     array_push($this->posts, $res);

@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\Sets\Controller;
-use App\Models\Codigo;
+use App\Models\Tramite;
 
-class CodigoController extends Controller
+class ProcesoController extends Controller
 {
     function __construct()
     {
@@ -14,17 +14,12 @@ class CodigoController extends Controller
 
     public function index() 
     {
-        $this->render('departamentos/index');
+        $this->render('procesos/v-procesos');
     }
 
     public function obtenerCodigos()
     {
         $codigo = new Codigo();
         return $codigo->getAll();
-    }
-
-    public function obtenerFilasCodigo(int $depid)
-    {
-        return Codigo::getFilasCodigo($depid);
     }
 }
