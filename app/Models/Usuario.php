@@ -9,18 +9,18 @@ use App\Sets\Model;
 
 class Usuario extends Model
 {
-    public $usu_id;
-    public $usu_dni;
-    public $usu_nombre_apellido;
-    public $dep_id;
-    public $usu_usuario;
-    public $usu_clave;
-    public  $gru_id;
+    public int $usu_id;
+    public string $usu_dni;
+    public string $usu_nombre_apellido;
+    public int $dep_id;
+    public string $usu_usuario;
+    public string $usu_clave;
+    public int $gru_id;
     public $usu_fregistro;
     public $usu_vigencia;
-    public $usu_email;
-    public $usu_estatus;
-    public $usu_observacion;
+    public string $usu_email;
+    public int $usu_estatus;
+    public string $usu_observacion;
 
     public function __construct( $username,  $password)
     {
@@ -62,15 +62,16 @@ class Usuario extends Model
             $query = $db->connect()->prepare('SELECT * FROM usuarios WHERE usu_usuario = :usuario');
             $query->execute([ 'usuario' => $usuario]);
             $data = $query->fetch(PDO::FETCH_ASSOC);
-            error_log($data['usu_usuario']);
-            error_log($data['usu_clave']);
+
             $user = new Usuario($data['usu_usuario'], $data['usu_clave']);
+            
             $user->usu_id = $data['usu_id'];
             $user->usu_email=$data['usu_email'];
             $user->usu_usaurio = $data['usu_usuario'];
             $user->usu_clave=$data['usu_clave'];
             $user->gru_id = $data['gru_id'];
             $user->dep_id = $data['dep_id'];
+            
             return $user;
         }catch(PDOException $e){
             return false;

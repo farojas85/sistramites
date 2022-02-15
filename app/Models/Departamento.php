@@ -9,15 +9,15 @@ use App\Sets\Model;
 
 class Departamento extends Model
 {
-    public $dep_id;
-    public $dep_nombre;
-    public $dep_abrevia;
-    public $dep_siglas;
-    public $dep_representante;
-    public $dep_cargo;
-    public $dep_observacion;
-    public $dep_maxdoc;
-    public $dep_estatus;
+    public int $dep_id;
+    public string $dep_nombre;
+    public string $dep_abrevia;
+    public string $dep_siglas;
+    public string $dep_representante;
+    public string $dep_cargo;
+    public string $dep_observacion;
+    public int $dep_maxdoc;
+    public int $dep_estatus;
 
     public function __construct()
     {
@@ -30,13 +30,15 @@ class Departamento extends Model
         $this->dep_cargo= "";
         $this->dep_observacion = "";
         $this->dep_maxdoc = 0;
-        $this->dep_estatus = 1;
+        $this->dep_estatus = 0;
     }
 
     public static function getById(int $id){
         try{
             $db = new Database();
-            $query = $db->connect()->prepare('SELECT * FROM departamento WHERE dep_id = :id');
+            $query = $db->connect()->prepare(
+                'SELECT * FROM departamento WHERE dep_id = :id'
+            );
             $query->execute([ 'id' => $id]);
             $data = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -48,9 +50,10 @@ class Departamento extends Model
             $departamento->dep_cargo= $data['dep_cargo'];
             $departamento->dep_observacion= $data['dep_observacion'];
             $departamento->dep_maxdoc = $data['dep_maxdoc'];
-            $departamento->dep_status = $data['dep_status'];
+            $departamento->dep_estatus = $data['dep_estatus'] ?  $data['dep_estatus'] :0;
 
             return $departamento;
+
         }catch(PDOException $e){
             return false;
         }
@@ -62,7 +65,34 @@ class Departamento extends Model
         try{
             $db = new Database();
 
-            $query = $db->connect()->prepare('SELECT * FROM departamento');
+            $query = $db->connect()->prepare(
+                'SELECT * FROM departamento'
+            );
+            $query->execute();
+            while($p = $query->fetch(PDO::FETCH_ASSOC))
+            {
+                array_push($items, $p);
+            }
+            return $items;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public static function getDepartamentos()
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+
+            $query = $db->connect()->prepare(
+                "SELECT * FROM departamento 
+                WHERE dep_nombre NOT IN('NINGUNA','RRHH')"
+            );
+
             $query->execute();
             while($p = $query->fetch(PDO::FETCH_ASSOC))
             {

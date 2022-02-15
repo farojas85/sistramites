@@ -9,8 +9,8 @@ use App\Sets\Model;
 
 class Grupo extends Model
 {
-    public $gru_id;
-    public $gru_nombre;
+    public int $gru_id;
+    public string $gru_nombre;
 
     public function __construct()
     {

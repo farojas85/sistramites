@@ -23,5 +23,13 @@ class DepartamentoController extends Controller
         return $depa->getAll();
     }
 
-    
+    public function obtenerDepartamentoPorId(int $depid)
+    {
+        return Departamento::getById($depid);
+    }
+
+    public function obtenerFiltroDepartamentos()
+    {
+        return Departamento::getDepartamentos();
+    }
 }

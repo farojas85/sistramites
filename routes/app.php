@@ -47,5 +47,7 @@ include "departamento.php";
 include "documentos.php";
 include "codigo.php";
 include "tramite.php";
+include "tipoDocumento.php";
+include "tupa.php";
 
 $router->run();

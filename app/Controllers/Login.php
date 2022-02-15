@@ -18,8 +18,8 @@ class Login extends Controller
             $password = $data['password'];
 
             if(Usuario::exists($usuario)){
-                error_log('si existe');
-                error_log('usuario: '.$usuario);
+                // error_log('si existe');
+                // error_log('usuario: '.$usuario);
                 $user = Usuario::get($usuario);
     
                 
@@ -34,6 +34,8 @@ class Login extends Controller
                     $_SESSION["dep_id"] = $user->dep_id;
                     $depa = Departamento::getById($user->dep_id);
                     $_SESSION['dep_nombre'] = $depa->dep_nombre;
+                    $_SESSION['dep_abrevia'] = $depa->dep_abrevia;
+
                     header('location: home');
                 }else{
                     echo "password incorrecto";

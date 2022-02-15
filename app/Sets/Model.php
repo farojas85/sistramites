@@ -6,7 +6,7 @@ use App\Config\Database;
 
 class Model{
 
-    private Database $db;
+    private $db;
     
     function __construct(){
         $this->db = new Database();

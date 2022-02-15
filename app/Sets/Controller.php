@@ -5,8 +5,8 @@ use App\Sets\View;
 
 class Controller 
 {
-    private string $name;
-    private View $view;
+    private $name;
+    private $view;
 
     function __construct(){
         $className = get_class($this);

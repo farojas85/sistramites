@@ -9,10 +9,10 @@ use App\Sets\Model;
 
 class Tramite extends Model
 {
-    public $tr_id;
-    public $tr_tipo;
-    public $tr_numexp;
-    public $gru_nombre;
+    public int $tr_id;
+    public string $tr_tipo;
+    public string $tr_numexp;
+    public string $gru_nombre;
 
     public function __construct()
     {
@@ -31,7 +31,7 @@ class Tramite extends Model
             $query->execute([ 'id' => $id]);
             $data = $query->fetch(PDO::FETCH_ASSOC);
            
-            $grupo = new Grupo();
+            $grupo = new Tramite();
             $grupo->gru_id = $data['tr_id'];
             $grupo->gru_nombre=$data['gru_nombre'];
             return $grupo;
@@ -178,6 +178,26 @@ class Tramite extends Model
     }
 
     public static function getContarDocumentosCreados()
+    {
+        $items = [];
+
+        try{
+            $db = new Database();
+            $query = $db->connect()->prepare("SELECT count(t.tr_id) as n_doccreados 
+                                                FROM tramites AS t INNER JOIN codigos as c ON c.tr_id=t.tr_id
+                                                WHERE  t.usu_id=?");
+            $query->execute([$_SESSION['usu_id']]);
+            $cantidad_doccreados = (int) $query->fetch(PDO::FETCH_OBJ)->n_doccreados;
+
+            return $cantidad_doccreados;
+
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+    
+    public static function getContarDocumentosCreadosss()
     {
         $items = [];
 

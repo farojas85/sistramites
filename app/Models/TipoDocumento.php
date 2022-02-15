@@ -9,9 +9,9 @@ use App\Sets\Model;
 
 class TipoDocumento extends Model
 {
-    public $tdoc_id;
-    public $tdoc_nombre;
-    public $tdoc_abrevia;
+    public int $tdoc_id;
+    public string $tdoc_nombre;
+    public string $tdoc_abrevia;
 
     public function __construct()
     {
@@ -41,13 +41,13 @@ class TipoDocumento extends Model
         }
     }
 
-    public static function getAll(){
+    public static function getAll() :array{
         $items = [];
 
         try{
             $db = new Database();
 
-            $query = $db->connect()->prepare('SELECT * FROM tipo_documento');
+            $query = $db->connect()->prepare('SELECT * FROM tipo_documento ORDER BY tdoc_id asc');
             $query->execute();
             while($p = $query->fetch(PDO::FETCH_ASSOC))
             {

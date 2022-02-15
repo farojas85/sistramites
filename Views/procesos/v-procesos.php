@@ -9,6 +9,7 @@
 <div class="row" id="principal">
     <input type="hidden" id="estado" value="PENDIENTE">
     <input type="hidden" id="depid" value="<?=$depart;?>">
+    <input type="hidden" id="abrevia" value="<?=$Abrevia;?>">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -188,7 +189,7 @@
     
 </script>
 
-<script type="text/javascript" src="functions/procesos/procesos.js"></script>
+<!-- <script type="text/javascript" src="functions/procesos/procesos.js"></script> -->
 <script type="text/javascript" src="funciones/procesos/filtro.js"></script>
 <script type="text/javascript" src="funciones/procesos/recepcion.js"></script>
 

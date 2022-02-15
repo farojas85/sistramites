@@ -9,9 +9,9 @@ use App\Sets\Model;
 
 class Codigo extends Model
 {
-    public $cod_id;
-    public $dep_id;
-    public $tr_id;
+    public int $cod_id;
+    public int $dep_id;
+    public int $tr_id;
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class Codigo extends Model
         $this->dep_nombre = "";
     }
 
-    public static function getById(int $id){
+    public static function getById(int $id) :Codigo{
         try{
             $db = new Database();
             $query = $db->connect()->prepare('SELECT * FROM codigos WHERE cod_id = :id');
@@ -55,15 +55,15 @@ class Codigo extends Model
             echo $e;
         }
     }
-    public static function getFilasCodigo(int $depid)
+    public static function getFilasCodigo(int $depid) :int
     {
         $items = [];
 
         try{
             $db = new Database();
-            $query = $db->connect()->prepare("SELECT (count(id) + 1) as fila_codigo  FROM codigos WHERE dep_id=?");
+            $query = $db->connect()->prepare("SELECT (count(cod_id) + 1) as fila_codigo  FROM codigos WHERE dep_id=?");
             $query->execute([$depid]);
-            $cantidad_filas = (int) $query->fetch(PDO::FETCH_OBJ)->n_archivados;
+            $cantidad_filas = (int) $query->fetch(PDO::FETCH_OBJ)->fila_codigo;
 
             return $cantidad_filas;
 
