@@ -11,16 +11,50 @@ class Tramite extends Model
 {
     public int $tr_id;
     public string $tr_tipo;
+    public string $tr_remintente;
+    public string $tr_numeracion;
+    public $tr_fecdoc;
+    public int $tdoc_id;
+    public string $tr_numdoc;
+    public string $tr_asunto;
+    public string $tr_detalle;
+    public string $tr_nfolio;
+    public string $tr_archivo;
+    public int $tup_id;
+    public string $tup_tipo;
+    public int $usu_id;
     public string $tr_numexp;
-    public string $gru_nombre;
+    public string $tup_silencio;
+    public int $dep_origen;
+    public string $tr_estatuso;
+    public int $dep_recibe;
+    public string $tr_estatusr;
+    public string $tr_proveido;
 
     public function __construct()
     {
         parent::__construct();
-        $this->tr_id = 0;
+        $this->tr_id=0;
         $this->tr_tipo="";
+        $this->tr_remintente="";
+        $this->tr_numeracion="";
+        $this->tr_fecdoc="";
+        $this->tdoc_id=0;
+        $this->tr_numdoc="";
+        $this->tr_asunto="";
+        $this->tr_detalle="";
+        $this->tr_nfolio="";
+        $this->tr_archivo="";
+        $this->tup_id=0;
+        $this->tup_tipo="";
+        $this->usu_id=0;
         $this->tr_numexp="";
-        $this->gru_nombre = "";
+        $this->tup_silencio="";
+        $this->dep_origen=0;
+        $this->tr_estatuso="";
+        $this->dep_recibe=0;
+        $this->tr_estatusr="";
+        $this->tr_proveido="";
     }
 
     public static function getById(int $id) :Tramite
@@ -31,10 +65,10 @@ class Tramite extends Model
             $query->execute([ 'id' => $id]);
             $data = $query->fetch(PDO::FETCH_ASSOC);
            
-            $grupo = new Tramite();
-            $grupo->gru_id = $data['tr_id'];
-            $grupo->gru_nombre=$data['gru_nombre'];
-            return $grupo;
+            $tramite = new Tramite();
+            $tramite->gru_id = $data['tr_id'];
+            $tramite->gru_nombre=$data['gru_nombre'];
+            return $tramite;
         }catch(PDOException $e){
             return false;
         }
@@ -193,7 +227,7 @@ class Tramite extends Model
 
 
         }catch(PDOException $e){
-            echo $e;
+            return $e;
         }
     }
     
@@ -214,6 +248,83 @@ class Tramite extends Model
 
         }catch(PDOException $e){
             echo $e;
+        }
+    }
+    public static function insertar($POST) {
+        try{
+            $db = new Database();
+            if($POST['action'] == 'upload')
+            {
+                $archivo = $_FILES["file"]["name"];
+                $tamano = $_FILES["file"]["size"];
+                $tipo = $_FILES["file"]["type"];
+                $extension = pathinfo($_FILES["file"]["name"]);
+                $extension = "." . $extension["extension"];
+       
+                $numeroexp = $_POST['numero'];
+                $tr_tipo = $_POST['tr_tipo'];
+                $remitente = $_POST['remitente'];
+                $fdocumento = $_POST['fdocumento'];
+                $tdoc_id = $_POST['tipod'];
+                $ndocumento = $_POST['ndocumento'];
+                $asunto = $_POST['asunto'];
+                $detalle = $_POST['detalle'];
+                $folio = $_POST['folio'];
+                $tupa = $_POST['tupa'];
+                $silencio = $_POST['silencio'];
+                $tipoEstatus = $_POST['tipoEstatus'];
+                $unidad = $_POST['unidad'];
+                $proveido =  $_POST['proveido'];
+                $usu_id = $_POST['usu_id'];
+                $tup_tipo = "nose";
+                $dep_origen = $usu_id;
+                $tr_estatusr = "PENDIENTE";
+                
+                if ($tipoEstatus == "RECIBIDO") {
+                   $tipoEstatus = "DERIVADO";
+                }
+                $depid = $_SESSION['dep_id'];
+                
+                $carpeta_departamento='recepcion/'.$depid;
+            
+                if(!file_exists($carpeta_departamento))
+                {
+                    mkdir($carpeta_departamento,0777,true);
+                }
+
+                $contar_archivos = count($_FILES['file']['name']);
+
+                $tr_id="500";
+                $carpeta_tramite = $carpeta_departamento."/".$tr_id;
+                if(!file_exists($carpeta_tramite))
+                {
+                    mkdir($carpeta_tramite,0777,true);
+                }
+
+                for($i=0;$i<$contar_archivos;$i++)
+                {
+                    $extension = pathinfo($_FILES["file"]["name"][$i]);
+                    $extension = "." . $extension["extension"];
+                    $archivo = $numeroexp."-".($i+1).$extension;
+                    move_uploaded_file($_FILES['file']['tmp_name'][$i],$carpeta_tramite.'/'.$archivo);
+                }
+
+                // $pdo = $db->connect();
+                // $query = $pdo->prepare(
+                //     "INSERT INTO tipo_documento(tdoc_nombre,tdoc_abrevia)
+                //     VALUES(?,?)"
+                // );
+
+                // $query->execute([$POST['docnombre'],$POST['docabrevia']]);
+
+                // $tipodoc_id = $pdo->lastInsertId();
+
+            }
+            return $carpeta_departamento;
+            
+
+        } catch(PDOException $e) {
+            return $e;
         }
     }
 }

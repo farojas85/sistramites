@@ -12,7 +12,8 @@
     "require": {
         "php": ">=7.4.0",
         "bramus/router": "^1.6",
-        "google/apiclient": "^2.12.1"
+        "google/apiclient": "^2.12.1",
+        "tecnickcom/tcpdf": "^6.4"
     },
     "autoload": {
         "psr-4": {

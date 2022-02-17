@@ -65,21 +65,22 @@ $(document).ready(function () {
 
 
     $.ajax({
-      url: "functions/Recepcionista/Recepcion.php",
+      url: "/guardar-tramite",
       type: "POST",
       datatype: "json",
       data: formData,
       contentType: false,
       processData: false,
       success: function (data) {
+        console.log(data)
         //  listar();
         //  toastr.success('Se han procesado los datos correctamente','EXITO');
-        refresh();
+        //refresh();
       }
     });
-    $('#M_Crear').modal('hide');
-    ruta = 'PDF/documentos/R_imprimirS.php?&d=' + numero;
-    window.open(ruta, '_blank');
+    // $('#M_Crear').modal('hide');
+    // ruta = 'PDF/documentos/R_imprimirS.php?&d=' + numero;
+    // window.open(ruta, '_blank');
 
   });
   function refresh() {
@@ -88,7 +89,7 @@ $(document).ready(function () {
     }, 150);
   }
 
-  
+
 
 
   /////////////////////////////////////////////////////////////////////////////
@@ -213,113 +214,108 @@ $(document).ready(function () {
 });
 
 
-function obtenerFilaCodigo()
-{
+function obtenerFilaCodigo() {
   depid = $.trim($('#depid').val());
 
   $.ajax({
-    url: "/codigo-fila/"+depid,
+    url: "/codigo-fila/" + depid,
     type: "GET",
     datatype: "json",
-    data: { depid:depid },
+    data: { depid: depid },
     success: function (data) {
-      var codigo =data
-      obtenerDepartamentoPorId(depid,codigo);
-      
+      var codigo = data
+      obtenerDepartamentoPorId(depid, codigo);
+
     }
   });
 }
 
-function obtenerDepartamentoPorId(depid,codigo)
-{
+function obtenerDepartamentoPorId(depid, codigo) {
   $.ajax({
-    url: "/departamento-por-id/"+depid,
+    url: "/departamento-por-id/" + depid,
     type: "GET",
     datatype: "json",
-    data: { depid:depid },
+    data: { depid: depid },
     success: function (data) {
       var depa = JSON.parse(data)
-      $('#numero').val(depa.dep_abrevia+'000'+codigo)
+      $('#numero').val(depa.dep_abrevia + '000' + codigo)
 
     }
   });
 }
 
-function ListarTipoDocumentos()
-{
+function ListarTipoDocumentos() {
   $('#tipod').empty();
   $.ajax({
     url: "/tipo-documentos-listar",
     type: "GET",
     datatype: "json",
-      success: function (data) {
+    success: function (data) {
 
-        var tipoObj = JSON.parse(data)
-        $('#tipod').append($('<option>',{
-          value:'',
-          text:'-Seleccionar-'
+      var tipoObj = JSON.parse(data)
+      $('#tipod').append($('<option>', {
+        value: '',
+        text: '-Seleccionar-'
+      }))
+
+      tipoObj.forEach(item => {
+        $('#tipod').append($('<option>', {
+          value: item.tdoc_id,
+          text: item.tdoc_nombre
         }))
 
-        tipoObj.forEach(item => {
-          $('#tipod').append($('<option>',{
-            value:item.tdoc_id,
-            text: item.tdoc_nombre
-          }))
-          
-        })
+      })
     }
   });
 }
 
-function ListarTupasActivas()
-{
+function ListarTupasActivas() {
   $('#tupa').empty();
   $.ajax({
     url: "/tupas-activas-listar",
     type: "GET",
     datatype: "json",
-      success: function (data) {
+    success: function (data) {
 
-        var tupa = JSON.parse(data)
-        $('#tupa').append($('<option>',{
-          value:'5',
-          text:'NINGUNO'
+      var tupa = JSON.parse(data)
+      $('#tupa').append($('<option>', {
+        value: '5',
+        text: 'NINGUNO'
+      }))
+
+      tupa.forEach(item => {
+        $('#tupa').append($('<option>', {
+          value: item.tup_id,
+          text: item.tup_nombre
         }))
-        
-        tupa.forEach(item => {
-          $('#tupa').append($('<option>',{
-            value:item.tup_id,
-            text: item.tup_nombre
-          }))
-          
-        })
+
+      })
     }
   });
 }
 
 
-function ListarUnidades()
-{
+function ListarUnidades() {
   $('#unidad').empty();
   $.ajax({
     url: "/departamentos-filtro-listar",
     type: "GET",
     datatype: "json",
-      success: function (data) {
+    success: function (data) {
 
-        var depa = JSON.parse(data)
-        $('#unidad').append($('<option>',{
-          value:'5',
-          text:'NINGUNO'
+      var depa = JSON.parse(data)
+      $('#unidad').append($('<option>', {
+        value: '5',
+        text: 'NINGUNO'
+      }))
+
+      depa.forEach(item => {
+        $('#unidad').append($('<option>', {
+          value: item.dep_id,
+          text: item.dep_nombre
         }))
-        
-        depa.forEach(item => {
-          $('#unidad').append($('<option>',{
-            value:item.dep_id,
-            text: item.dep_nombre
-          }))
-          
-        })
+
+      })
     }
   });
 }

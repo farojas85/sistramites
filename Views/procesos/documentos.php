@@ -90,8 +90,8 @@
               <div class="custom-file">
                 <input style="width:50%; padding:5px 0px; border: 1px solid #39c;" height="20"
                   class="form-control btn btn-sm btn-info inputimg" title="AGREGAR DOCUMENTOS" accept=".doc,.docx,.pdf"
-                  id="uploadImage1" type="file" name="uploadImage1" onchange="previewImage(1);"
-                  class="form-control text-uppercase" />
+                  id="uploadImage1" type="file" name="uploadImage1[]" onchange="previewImage(1);"
+                  class="form-control text-uppercase" multiple  />
 
               </div>
             </div>

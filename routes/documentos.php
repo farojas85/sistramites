@@ -1,5 +1,6 @@
 <?php
 use App\Controllers\ProcesoController;
+use App\Controllers\DepartamentoController;
 
 $router->get('/procesos', function() { 
     $controller = new ProcesoController();

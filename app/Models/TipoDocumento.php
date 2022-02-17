@@ -73,11 +73,10 @@ class TipoDocumento extends Model
             $query->execute([$POST['docnombre'],$POST['docabrevia']]);
 
             $tipodoc_id = $pdo->lastInsertId();
-            echo $tipodoc_id;
-            
-
-        } catch(PDOException $e) {
-            echo $e;
+            return $tipodoc_id;
+        } 
+        catch(PDOException $e) {
+            return $e;
         }
     }
 }

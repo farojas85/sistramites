@@ -11,3 +11,8 @@ $router->get('/cantidad-documentos/(\d+)', function($depid){
     $controller =new TramiteController();
     echo json_encode($controller->obtenerCantidadDocumentos($depid));
 });
+
+$router->post("/guardar-tramite",function(){
+    $controller = new TramiteController();
+    echo $controller->insertarTramite($_POST);
+});
