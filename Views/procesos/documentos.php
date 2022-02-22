@@ -23,7 +23,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="formCrear">
+      <form id="formCrear" enctype='multipart/form-data'>
         <input name="usu_id" id="usu_id" type="hidden" value="<?=$dep_id;?>">
         <input name="action" id="action" type="hidden" value="upload" />
         <div class="modal-body">
@@ -90,7 +90,7 @@
               <div class="custom-file">
                 <input style="width:50%; padding:5px 0px; border: 1px solid #39c;" height="20"
                   class="form-control btn btn-sm btn-info inputimg" title="AGREGAR DOCUMENTOS" accept=".doc,.docx,.pdf"
-                  id="uploadImage1" type="file" name="uploadImage1[]" onchange="previewImage(1);"
+                  id="uploadImage1" type="file" name="uploadImage1"
                   class="form-control text-uppercase" multiple  />
 
               </div>
@@ -124,33 +124,42 @@
                 <dl id="departaaa"></dl>
               </dt>
             </div>
-
-            <lavel class="form-group col-xs-12 col-md-12 col-lg-12"
-              style="color:red; height: calc(0.1em + .14rem + 2px);">DERIVACION</lavel>
-
-            <div class="form-group col-xs-12 col-md-12 col-lg-4">
-              <label>Unidad:</label>
-              <SELECT id="unidad" style="height: calc(2.1em  + .14rem + 2px);" class="form-control text-uppercase"
-                required>
-                <option value="3">NINGUNO</option>
-              </select>
-
-            </div>
-
-            <div class="form-group col-xs-12 col-md-12 col-lg-4">
-              <label>Proveido:</label>
-              <input class="form-control text-uppercase" style="height: calc(1.9em + .14rem + 2px);" id="proveido"
-                type="text" placeholder="" value="- 0 -" required>
-            </div>
-            <div class="form-group col-xs-12 col-md-12 col-lg-4">
-              <label>Tipo:</label>
-              <select class="form-control text-uppercase" style="height: calc(2.1em + .18rem + 2px);" id="tipoEstatus"
-                placeholder="" pattern="[A-Za-z ].{1,}" title="Ingrese solo letras" required>
-
-                <option>DERIVADO</option>
-                <option>EN PROCESO</option>
-                <option>ARCHIVADO</option>
-              </select>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title text-danger">DERIVACION</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-md-12 col-lg-4">
+                        <label>Unidad:</label>
+                        <SELECT id="unidad" style="height: calc(2.1em  + .14rem + 2px);" class="form-control text-uppercase"
+                          required>
+                          <option value="3">NINGUNO</option>
+                        </select>
+          
+                      </div>
+          
+                      <div class="form-group col-md-12 col-lg-4">
+                        <label>Proveido:</label>
+                        <input class="form-control text-uppercase" style="height: calc(1.9em + .14rem + 2px);" id="proveido"
+                          type="text" placeholder="Ingrese Proveido" >
+                      </div>
+                      <div class="form-group col-md-12 col-lg-4">
+                        <label>Tipo:</label>
+                        <select class="form-control text-uppercase" style="height: calc(2.1em + .18rem + 2px);" id="tipoEstatus"
+                          placeholder="" pattern="[A-Za-z ].{1,}" title="Ingrese solo letras" required>
+          
+                          <option>DERIVADO</option>
+                          <option>EN PROCESO</option>
+                          <option>ARCHIVADO</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ use PDOException;
 
 use App\Config\Database;
 use App\Sets\Model;
+use Google\Service\Dfareporting\FileList;
 
 class Tramite extends Model
 {
@@ -255,11 +256,11 @@ class Tramite extends Model
             $db = new Database();
             if($POST['action'] == 'upload')
             {
-                $archivo = $_FILES["file"]["name"];
-                $tamano = $_FILES["file"]["size"];
-                $tipo = $_FILES["file"]["type"];
-                $extension = pathinfo($_FILES["file"]["name"]);
-                $extension = "." . $extension["extension"];
+                // $archivo = $_FILES["file"]["name"];
+                // $tamano = $_FILES["file"]["size"];
+                // $tipo = $_FILES["file"]["type"];
+                // $extension = pathinfo($_FILES["file"]["name"]);
+                // $extension = "." . $extension["extension"];
        
                 $numeroexp = $_POST['numero'];
                 $tr_tipo = $_POST['tr_tipo'];
@@ -292,7 +293,7 @@ class Tramite extends Model
                     mkdir($carpeta_departamento,0777,true);
                 }
 
-                $contar_archivos = count($_FILES['file']['name']);
+                $contar_archivos = count($_FILES["files"]["name"]);
 
                 $tr_id="500";
                 $carpeta_tramite = $carpeta_departamento."/".$tr_id;
@@ -303,11 +304,12 @@ class Tramite extends Model
 
                 for($i=0;$i<$contar_archivos;$i++)
                 {
-                    $extension = pathinfo($_FILES["file"]["name"][$i]);
+                    $extension = pathinfo($_FILES["files"]["name"][$i]);
                     $extension = "." . $extension["extension"];
                     $archivo = $numeroexp."-".($i+1).$extension;
-                    move_uploaded_file($_FILES['file']['tmp_name'][$i],$carpeta_tramite.'/'.$archivo);
+                    move_uploaded_file($_FILES['files']['tmp_name'][$i],$carpeta_tramite.'/'.$archivo);
                 }
+
 
                 // $pdo = $db->connect();
                 // $query = $pdo->prepare(
@@ -320,7 +322,7 @@ class Tramite extends Model
                 // $tipodoc_id = $pdo->lastInsertId();
 
             }
-            return $carpeta_departamento;
+            //return $carpeta_departamento;
             
 
         } catch(PDOException $e) {

@@ -40,10 +40,10 @@ $(document).ready(function () {
     var unidad = $.trim($('#unidad').val());
     var proveido = $.trim($('#proveido').val());
     var usu_id = $.trim($('#usu_id').val());
-    var files = $('#uploadImage1')[0].files[0];
-
-
-    formData.append('file', files);
+    var files = $('#uploadImage1')[0].files;
+    const $inputArchivos = document.querySelector("#uploadImage1")
+    var files = $inputArchivos.files
+    //formData.append('files[]', files);
     formData.append('numero', numero);
     formData.append('tr_tipo', tr_tipo);
     formData.append('remitente', remitente);
@@ -62,7 +62,9 @@ $(document).ready(function () {
     formData.append('proveido', proveido);
     formData.append('usu_id', usu_id);
     formData.append('action', action);
-
+    for (const archivo of files) {
+        formData.append("files[]", archivo);
+    }
 
     $.ajax({
       url: "/guardar-tramite",
@@ -288,7 +290,6 @@ function ListarTupasActivas() {
           value: item.tup_id,
           text: item.tup_nombre
         }))
-
       })
     }
   });

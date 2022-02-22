@@ -174,14 +174,28 @@
     
       $("#tupa").on('change', function () {
       $("#tupa option:selected").each(function () {
-          var id_tupa = $(this).val();
+          let id_tupa = $(this).val();
           //alert('se ejecuto');
-            $.post("views/Procesos/Requisito.php", { id_tupa: id_tupa }, function(data) {
-              $("#requiss").html(data);
-          });
-          $.post("views/Procesos/Departamento.php", { id_tupa: id_tupa }, function(data) {
-              $("#departaaa").html(data);
-          });
+            $('#requiss').empty();
+            $.get("tupa-requisito-por-id/"+id_tupa, { id_tupa: id_tupa }, function(data) {
+                let  requisito = JSON.parse(data)
+                requisito.forEach(item => {
+                 $('#requiss').append($('<option>', {
+                    value: item.tur_id,
+                    text: item.tur_nombre
+                    }))
+                })
+            });
+            $("#departaaa").empty()
+            $.get("tupa-departamento-por-tupa/"+id_tupa, { id_tupa: id_tupa }, function(data) {
+                let  departamento = JSON.parse(data)
+                departamento.forEach(item => {
+                $('#departaaa').append($('<option>', {
+                        value: item.dep_id,
+                        text: item.dep_nombre
+                    }))
+                })
+            });
       });
     });
     
