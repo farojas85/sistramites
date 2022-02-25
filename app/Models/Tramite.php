@@ -8,6 +8,7 @@ use App\Config\Database;
 use App\Sets\Model;
 use Google\Service\Dfareporting\FileList;
 
+
 class Tramite extends Model
 {
     public int $tr_id;
@@ -256,12 +257,6 @@ class Tramite extends Model
             $db = new Database();
             if($POST['action'] == 'upload')
             {
-                // $archivo = $_FILES["file"]["name"];
-                // $tamano = $_FILES["file"]["size"];
-                // $tipo = $_FILES["file"]["type"];
-                // $extension = pathinfo($_FILES["file"]["name"]);
-                // $extension = "." . $extension["extension"];
-       
                 $numeroexp = $_POST['numero'];
                 $tr_tipo = $_POST['tr_tipo'];
                 $remitente = $_POST['remitente'];
@@ -280,35 +275,106 @@ class Tramite extends Model
                 $tup_tipo = "nose";
                 $dep_origen = $usu_id;
                 $tr_estatusr = "PENDIENTE";
-                
-                if ($tipoEstatus == "RECIBIDO") {
-                   $tipoEstatus = "DERIVADO";
-                }
-                $depid = $_SESSION['dep_id'];
-                
-                $carpeta_departamento='recepcion/'.$depid;
             
-                if(!file_exists($carpeta_departamento))
-                {
-                    mkdir($carpeta_departamento,0777,true);
-                }
+                if ($tipoEstatus == "RECIBIDO") {
+                    $tipoEstatus = "DERIVADO";
+                 }
+                $depid = $_SESSION['dep_id'];
 
-                $contar_archivos = count($_FILES["files"]["name"]);
+                try {
+                    $db = new Database();
 
-                $tr_id="500";
-                $carpeta_tramite = $carpeta_departamento."/".$tr_id;
-                if(!file_exists($carpeta_tramite))
-                {
-                    mkdir($carpeta_tramite,0777,true);
-                }
+                    $query1 = $db->connect()->prepare(
+                        'SELECT dep_id,dep_nombre,dep_abrevia FROM departamento
+                        WHERE dep_id = ?');
+                    $query1->execute([$depid]);
+                    $data1 = $query1->fetch(PDO::FETCH_ASSOC);
+                    $dep_abrevia =strtoupper($data1['dep_abrevia']);
+                    $query1 = null;
+                    $query2 = $db->connect()->prepare(
+                        "SELECT COUNT(*) as nro_tramites FROM tramites 
+                        WHERE upper(tr_numeracion) LIKE '".$dep_abrevia."%' "
+                    );
+                    $query2->execute();
+                    $data2 = $query2->fetch(PDO::FETCH_ASSOC);
+                    $query2 = null;
+                    $nro_tramites = $data2['nro_tramites'];
+                    $relleno = 12 - strlen($dep_abrevia);
 
-                for($i=0;$i<$contar_archivos;$i++)
-                {
-                    $extension = pathinfo($_FILES["files"]["name"][$i]);
-                    $extension = "." . $extension["extension"];
-                    $archivo = $numeroexp."-".($i+1).$extension;
-                    move_uploaded_file($_FILES['files']['tmp_name'][$i],$carpeta_tramite.'/'.$archivo);
+                    $tr_numeracion = $dep_abrevia.str_pad($nro_tramites,$relleno,"0",STR_PAD_LEFT);
+
+                    $contar_archivos = count($_FILES["files"]["name"]);
+                    $archivos="";
+                    for($i=0;$i<$contar_archivos;$i++)
+                    {
+                        $extension = pathinfo($_FILES["files"]["name"][$i]);
+                        $extension = "." . $extension["extension"];
+                        $archivo = $tr_numeracion."-".($i+1).$extension;
+                        
+                        $archivos .=($i==$contar_archivos-1) ? $archivo : $archivo."//";
+                    }
+                    
+                    $pdo = $db->connect();
+                    $query3 = $pdo->prepare(
+                        "INSERT INTO tramites(tr_tipo,tr_remintente,tr_numeracion,tr_fecdoc,tdoc_id,tr_numdoc,tr_asunto,tr_detalle,
+                        tr_nfolio,tr_archivo,tup_id,tup_tipo,usu_id,tr_numexp,tr_silencio,dep_origen,tr_estatuso,
+                        dep_recibe,tr_estatusr,tr_proveido) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                    );
+                   
+                    $query3->execute([ 
+                        $tr_tipo, $remitente,$tr_numeracion,$fdocumento,$tdoc_id,$ndocumento,$asunto,$detalle,
+                        $folio,$archivos,$tupa,$tup_tipo,$usu_id,$tr_numeracion,$silencio,$usu_id,$tipoEstatus,
+                        $unidad,$tr_estatusr,$proveido
+                    ]);
+                    
+                    $tramite_id = $pdo->lastInsertId();
+                    $query3 =null;
+                    $pdo = null;
+
+                    $carpeta_departamento='recepcion/'.$depid;
+            
+                    if(!file_exists($carpeta_departamento))
+                    {
+                        mkdir($carpeta_departamento,0777,true);
+                    }
+    
+                    $contar_archivos = count($_FILES["files"]["name"]);
+    
+                    $tr_id="500";
+                    $carpeta_tramite = $carpeta_departamento."/".$tramite_id;
+                    if(!file_exists($carpeta_tramite))
+                    {
+                        mkdir($carpeta_tramite,0777,true);
+                    }
+    
+                    for($i=0;$i<$contar_archivos;$i++)
+                    {
+                        $extension = pathinfo($_FILES["files"]["name"][$i]);
+                        $extension = "." . $extension["extension"];
+                        $archivo = $numeroexp."-".($i+1).$extension;
+                        move_uploaded_file($_FILES['files']['tmp_name'][$i],$carpeta_tramite.'/'.$archivo);
+                    }
+                    
+                    $pdo2 = $db->connect();
+                    $query4 = $pdo2->prepare(
+                        'INSERT INTO tramite_movimiento(tr_id,dep_remite,dep_recibe,mov_detalle,mov_fecha,mov_estatus,trec_id)
+                        VALUES (?,?,?,?,?,?,?)'
+                    );
+                    $query4->execute([
+                        $tramite_id,$unidad,$usu_id,$detalle,date('Y-m-d'),date('H:i:s'),$tdoc_id
+                    ]);
+                    $tramite_mov  = $pdo2->lastInsertId();
+                    $query4=null;
+                    $pdo2=null;
+                    return $tramite_id;
+
+                } catch(PDOException $e) {
+                    echo $e;
                 }
+                
+               
+                
+               
 
 
                 // $pdo = $db->connect();
